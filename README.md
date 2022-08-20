@@ -5,7 +5,7 @@
 * [x] simple fade transition between slides
 * [x] support text
 * [x] support equations
-* [ ] support graphs
+* [x] support graphs
 * [ ] transition between text
 * [ ] transition between equations
 * [ ] transition between graphs
