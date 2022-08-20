@@ -1,3 +1,4 @@
+import { DrawGraph } from "./DrawGraph";
 import { MathTex } from "./MathTex";
 
 let slides = document.querySelectorAll("#frames > section") as NodeListOf<HTMLElement>;
@@ -7,6 +8,7 @@ let numOfSlides = slides.length;
 update();
 
 customElements.define("math-tex", MathTex)
+customElements.define("draw-graph", DrawGraph)
 
 /* interaction */
 document.addEventListener("click", (e: Event) => {
