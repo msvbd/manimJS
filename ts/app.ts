@@ -1,14 +1,33 @@
+import katex from "katex";
+import { fadeIn, fadeOut, moveIn, moveOut, showIn, showOut } from "./animations";
 import { DrawGraph } from "./DrawGraph";
+import { For } from "./For";
+import { Text, TransText } from "./textTransform";
 import { MathTex } from "./MathTex";
 
-let slides = document.querySelectorAll("#frames > section") as NodeListOf<HTMLElement>;
+let slides = document.querySelectorAll(
+  "#frames > section"
+) as NodeListOf<HTMLElement>;
 let slideNumber = 0;
 let numOfSlides = slides.length;
 
+
+/* init transform text */
+const textsTrans = document.querySelectorAll(
+  "[data-text-transition]"
+) as NodeListOf<HTMLElement>;
+
+for (const text of textsTrans) {
+  new Text(text);
+}
+
+
 update();
 
-customElements.define("math-tex", MathTex)
-customElements.define("draw-graph", DrawGraph)
+/* web component definition */
+customElements.define("for-loop", For);
+customElements.define("math-tex", MathTex);
+customElements.define("draw-graph", DrawGraph);
 
 /* interaction */
 document.addEventListener("click", (e: Event) => {
@@ -21,49 +40,65 @@ document.addEventListener("click", (e: Event) => {
 function update() {
   slides.forEach((slide, i) => {
     if (slide.classList.contains("visible")) {
-      hideSlide(slide);
+      for (const element of slide.children) {
+        AnimOutElement(element as HTMLElement);
+      }
       slide.classList.remove("visible");
     }
     if (i === slideNumber) {
-      showSlide(slide);
+      slide.style.opacity = "1";
+      for (const element of slide.children) {        
+        AnimInElement(element as HTMLElement);
+      }
       slide.classList.add("visible");
     }
   });
 }
 
-function hideSlide(slide: HTMLElement) {
-  anim(1, 0, (val: number) => {
-    slide.style.opacity = val + "";
-  });
+function AnimOutElement(el: HTMLElement) {
+  if (el instanceof DrawGraph) {
+    el.animOut();
+    return;
+  }
+  if (el.hasAttribute("data-text-transition")) {
+    TransText.transTexts.get(el.dataset.id).animOut()
+    showOut(el)
+    // fadeOut(el)
+    return;
+  }
+  switch (el.dataset.animOut) {
+    case "fade":
+      fadeOut(el);
+      break;
+    case "move":
+      moveOut(el);
+      break;
+    default:
+      fadeOut(el);
+      break;
+  }
 }
 
-function showSlide(slide: HTMLElement) {
-  anim(0, 1, (val: number) => {
-    //console.log("callback", val);
-    slide.style.opacity = val + "";
-  });
-}
-
-function anim(initVal: number, endValue: number, cb: (curVal: number) => void) {
-  let startTime = Date.now();
-  let curTime: number;
-  let duration = 1000;
-
-  step();
-
-  function step() {
-    curTime = Date.now();
-    let time = curTime - startTime;
-
-    let param = Math.min(time / duration, 1);
-    let newVal =
-      initVal + (endValue - initVal) * (-(Math.cos(Math.PI * param) - 1) / 2);
-    // let newVal = initVal + (endValue - initVal) * param;
-
-    cb(newVal);
-
-    if (time <= duration) {
-      window.requestAnimationFrame(step);
-    }
+function AnimInElement(el: HTMLElement) {
+  if (el instanceof DrawGraph) {
+    el.animIn();
+    return;
+  }
+  if (el.hasAttribute("data-text-transition")) {
+    TransText.transTexts.get(el.dataset.id).animIn()
+    showIn(el)
+    // fadeIn(el)
+    return;
+  }
+  switch (el.dataset.animIn) {
+    case "fade":
+      fadeIn(el);
+      break;
+    case "move":
+      moveIn(el);
+      break;
+    default:
+      fadeIn(el);
+      break;
   }
 }

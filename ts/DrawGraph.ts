@@ -1,3 +1,5 @@
+import { fadeIn, rotateIn, rotateOut } from "./animations";
+
 export class DrawGraph extends HTMLElement {
   constructor() {
     super();
@@ -28,6 +30,16 @@ export class DrawGraph extends HTMLElement {
     }
     graph+=`</svg>`;
     (this.shadowRoot as ShadowRoot).innerHTML = graph
+  }
+
+  animIn() {
+    console.log("animIn");
+    rotateIn(this)
+  }
+
+  animOut() {
+    console.log("animOut");
+    rotateOut(this)
   }
 
 //   connectedCallback() {}
