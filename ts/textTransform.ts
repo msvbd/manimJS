@@ -1,4 +1,4 @@
-import { fadeIn, fadeOut, moveBy, showIn, showInEnd, turnRedIn, turnRedOut } from "./animations";
+import { fadeIn, fadeOut, moveBy, showInEnd } from "./animations";
 
 /* text transition */
 export class Text {
