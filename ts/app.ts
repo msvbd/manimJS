@@ -1,4 +1,4 @@
-import katex from "katex";
+// import katex from "katex";
 import { fadeIn, fadeOut, moveIn, moveOut, showIn, showOut } from "./animations";
 import { DrawGraph } from "./DrawGraph";
 import { For } from "./For";

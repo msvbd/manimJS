@@ -74,3 +74,16 @@ table, tr, td {
 [data-text-transition] {
     position: relative;
 }
+
+.change {
+    background-color: yellow !important;
+    color: yellow !important;
+}
+.insert {
+    background-color: green !important;
+    color: green !important;
+}
+.remove {
+    background-color: red !important;
+    color: red !important;
+}
