@@ -1,6 +1,6 @@
 import katex from "katex";
 import { diffArrays, diffChars } from "diff";
-import { treeDiffer } from "./treeDiff/treeDiffer-dist";
+import { MyTreeDiffer } from "./myTreeDiffer";
 
 export class MathTex extends HTMLElement {
   mySlot: HTMLSlotElement;
@@ -80,52 +80,9 @@ export class TransMath {
     //   console.log(v);
     // })
 
-    console.log(this.source.mySlot);
-    console.log(this.target.mySlot);
-    const sour = new treeDiffer.Tree(
-      this.source.mySlot,
-      treeDiffer.TreeNode,
-      {}
-    );
-    const tar = new treeDiffer.Tree(
-      this.target.mySlot,
-      treeDiffer.TreeNode,
-      {}
-    );
+ 
+    const diff = new MyTreeDiffer(this.source.mySlot, this.target.mySlot);
 
-    console.log(sour);
-    console.log(tar);
-    let diff = new treeDiffer.Differ(sour, tar).transactions[
-      sour.orderedNodes.length - 1
-    ][tar.orderedNodes.length - 1];
-    console.log(diff);
-
-    for (let i = 0, ilen = diff.length; i < ilen; i++) {
-      if (diff[i][0] !== null && diff[i][1] !== null) {
-        if (
-          sour.orderedNodes[diff[i][0]] !== undefined &&
-          sour.orderedNodes[diff[i][0]].node.classList !== undefined
-        )
-          sour.orderedNodes[diff[i][0]].node.classList.add("change");
-        if (
-          tar.orderedNodes[diff[i][1]] !== undefined &&
-          tar.orderedNodes[diff[i][1]].node.classList !== undefined
-        )
-          tar.orderedNodes[diff[i][1]].node.classList.add("change");
-      } else if (diff[i][0]) {
-        if (
-          sour.orderedNodes[diff[i][0]] !== undefined &&
-          sour.orderedNodes[diff[i][0]].node.classList !== undefined
-        )
-          sour.orderedNodes[diff[i][0]].node.classList.add("remove");
-      } else if (diff[i][1]) {
-        if (
-          tar.orderedNodes[diff[i][1]] !== undefined &&
-          tar.orderedNodes[diff[i][1]].node.classList !== undefined
-        )
-          tar.orderedNodes[diff[i][1]].node.classList.add("insert");
-      }
-    }
 
     // for (const ltr of this.source.letters) {
     //   if (intersection.has(ltr.innerText)) {
