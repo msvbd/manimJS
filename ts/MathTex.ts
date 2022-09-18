@@ -1,9 +1,12 @@
 import katex from "katex";
-import { diffArrays, diffChars } from "diff";
+import { fadeIn, fadeOut, showInEnd, moveBy } from "./animations";
+// import { diffArrays, diffChars } from "diff";
 import { MyTreeDiffer } from "./myTreeDiffer";
 
 export class MathTex extends HTMLElement {
   mySlot: HTMLSlotElement;
+  transition: TransMath | undefined;
+  dataId: string | undefined;
 
   constructor() {
     super();
@@ -12,52 +15,65 @@ export class MathTex extends HTMLElement {
 
     this.mySlot = document.createElement("slot");
 
+    this.dataId = this.dataset.id;
+      
+
     (
       this.shadowRoot as ShadowRoot
-    ).innerHTML = `<link rel="stylesheet" href="./node_modules/katex/dist/katex.min.css" />
-    <style>
-    .change {
-      background-color: yellow !important;
-  }
-  .insert {
-      background-color: green !important;
-  }
-  .remove {
-      background-color: red !important;
-  }</style>`;
+    ).innerHTML = `<link rel="stylesheet" href="./node_modules/katex/dist/katex.min.css" />`;
     this.shadowRoot?.appendChild(this.mySlot);
   }
 
   connectedCallback() {
-    // let latex = this.getAttribute("latex") || "";
     let latex = this.innerText;
     this.innerText = "";
-    // console.log("MATH", latex, this);
-    // this.mySlot.innerHTML = katex.renderToString(latex);
-    katex.render(latex, this.mySlot, {output: 'mathml'});
-    // console.log(this.mySlot.innerHTML);
+    katex.render(latex, this.mySlot);
     if (this.hasAttribute("data-math-transition")) {
-      new TransMath(this);
+      this.transition = new TransMath(this);
     }
+  }
+
+  animIn() {
+    if (this.transition === undefined) {
+      fadeIn(this);
+      return;
+    }
+
+    console.log("animIn not undefined");
+    this.transition.animIn();
+  }
+
+  animOut() {
+    if (this.transition === undefined) {
+      fadeOut(this);
+      return;
+    }
+
+    console.log("animOut not undefined");
+    this.transition.animOut();
   }
 }
 
 export class TransMath {
-  static transMath = new Map();
+  static transMath : Map<string, TransMath> = new Map();
   source: MathTex;
   target: MathTex | undefined;
+  diff: MyTreeDiffer | undefined;
 
   constructor(math: MathTex) {
     this.source = math;
     console.log("math", math);
 
-    if (TransMath.transMath.has(math.id)) {
+    if(math.dataId === undefined) return;
+    
+    const me = TransMath.transMath.get(math.dataId);
+    if (me !== undefined) {
       this.target = math;
-      TransMath.transMath.get(math.id).target = math;
+      me.target = math;
 
-      TransMath.transMath.get(math.id).computeTransition();
+      me.computeTransition();
     } else {
-      TransMath.transMath.set(math.id, this);
+      TransMath.transMath.set(math.dataId, this);
     }
   }
 
@@ -75,58 +91,69 @@ export class TransMath {
     // console.log(this.source.mySlot.innerHTML);
     // console.log(this.target.mySlot.innerHTML);
 
-    console.log("diff");
+    // console.log("diff");
     // diff.forEach(v => {
     //   console.log(v);
     // })
 
- 
-    const diff = new MyTreeDiffer(this.source.mySlot, this.target.mySlot);
+    this.diff = new MyTreeDiffer(this.source.mySlot, this.target.mySlot);
+    // console.log(this.diff.diff);
 
+    for (const ltr of this.diff.diff.sources) {
+      if (ltr[1] === undefined) {
+        ltr[0].classList.add("remove");
+        continue;
+      }
+      (ltr[0] as HTMLElement).dataset.dx = String(
+        ltr[1].getBoundingClientRect().left -
+          ltr[0].getBoundingClientRect().left
+      );
+      (ltr[0] as HTMLElement).dataset.dy = String(
+        ltr[1].getBoundingClientRect().top - ltr[0].getBoundingClientRect().top
+      );
+      ltr[0].classList.add("notNew");
 
-    // for (const ltr of this.source.letters) {
-    //   if (intersection.has(ltr.innerText)) {
-    //     ltr.classList.add("notNew");
-    //     let targetEl = this.target.letters.item([...this.target.math].findIndex(val => {
-    //         return val===ltr.innerText;
-    //     }));
-    //     if(targetEl === null) return
-    //     ltr.dataset.dx = String(targetEl.getBoundingClientRect().left - ltr.getBoundingClientRect().left);
-    //     ltr.dataset.dy = String(targetEl.getBoundingClientRect().top - ltr.getBoundingClientRect().top);
-    //   } else {
-    //     ltr.classList.add("remove");
-    //   }
-    // }
+    }
 
-    // for (const ltr of this.target.letters) {
-    //   if (intersection.has(ltr.innerText)) {
-    //     ltr.classList.add("notNew");
-    //   } else {
-    //     ltr.classList.add("create");
-    //   }
+    for (const ltr of this.diff.diff.targets) {
+      if (ltr[1] === undefined) {
+        ltr[0].classList.add("insert");
+        continue;
+      }
+      ltr[0].classList.add("notNew");
+    }
+
+  }
+
+  animIn() {
+    if (this.diff === undefined) return;
+
+    for (const ltr of this.diff.diff.targets) {
+      if (ltr[0].classList.contains("notNew")) {
+        showInEnd(ltr[0] as HTMLElement);
+      } else {
+        fadeIn(ltr[0] as HTMLElement);
+      }
+    }
+    // for (const ltr of this.diff.diff.sources) {
+    //   fadeIn(ltr[0] as HTMLElement);
     // }
   }
 
-  // animIn() {
-  //   if(this.target === undefined) return
-  //   for (const ltr of this.target.letters) {
-  //       if(ltr.classList.contains("notNew")) {
-  //           showInEnd(ltr);
-  //       } else {
-  //           fadeIn(ltr);
-  //       }
-  //   }
-  // }
+  animOut() {
+    if (this.diff === undefined) return;
 
-  // animOut() {
-  //   for (const ltr of this.source.letters) {
-  //       if(ltr.classList.contains("notNew")) {
-  //           let dx = ltr.dataset.dx || 0
-  //           let dy = ltr.dataset.dy || 0
-  //           moveBy(ltr, +dx, +dy);
-  //       } else {
-  //           fadeOut(ltr);
-  //       }
-  //   }
-  // }
+    for (const ltr of this.diff.diff.sources) {
+      if (ltr[0].classList.contains("notNew")) {
+        let dx = (ltr[0] as HTMLElement).dataset.dx || 0;
+        let dy = (ltr[0] as HTMLElement).dataset.dy || 0;
+        moveBy(ltr[0] as HTMLElement, +dx, +dy);
+      } else {
+        fadeOut(ltr[0] as HTMLElement);
+      }
+    }
+    for (const ltr of this.diff.diff.targets) {
+      fadeOut(ltr[0] as HTMLElement);
+    }
+  }
 }

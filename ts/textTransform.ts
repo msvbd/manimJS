@@ -49,12 +49,19 @@ export class TransText {
     for (const ltr of this.source.letters) {
       if (intersection.has(ltr.innerText)) {
         ltr.classList.add("notNew");
-        let targetEl = this.target.letters.item([...this.target.text].findIndex(val => {
-            return val===ltr.innerText;
-        }));
-        if(targetEl === null) return
-        ltr.dataset.dx = String(targetEl.getBoundingClientRect().left - ltr.getBoundingClientRect().left);
-        ltr.dataset.dy = String(targetEl.getBoundingClientRect().top - ltr.getBoundingClientRect().top); 
+        let targetEl = this.target.letters.item(
+          [...this.target.text].findIndex((val) => {
+            return val === ltr.innerText;
+          })
+        );
+        if (targetEl === null) return;
+        ltr.dataset.dx = String(
+          targetEl.getBoundingClientRect().left -
+            ltr.getBoundingClientRect().left
+        );
+        ltr.dataset.dy = String(
+          targetEl.getBoundingClientRect().top - ltr.getBoundingClientRect().top
+        );
       } else {
         ltr.classList.add("remove");
       }
@@ -70,26 +77,29 @@ export class TransText {
   }
 
   animIn() {
-    if(this.target === undefined) return
+    if (this.target === undefined) return;
     for (const ltr of this.target.letters) {
-        if(ltr.classList.contains("notNew")) {
-            showInEnd(ltr);
-        } else {
-            fadeIn(ltr);
-        }
+      if (ltr.classList.contains("notNew")) {
+        showInEnd(ltr);
+      } else {
+        fadeIn(ltr);
+      }
     }
   }
 
   animOut() {
     for (const ltr of this.source.letters) {
-        if(ltr.classList.contains("notNew")) {
-            let dx = ltr.dataset.dx || 0
-            let dy = ltr.dataset.dy || 0
-            moveBy(ltr, +dx, +dy);
-        } else {
-            fadeOut(ltr);
-        }
+      if (ltr.classList.contains("notNew")) {
+        let dx = ltr.dataset.dx || 0;
+        let dy = ltr.dataset.dy || 0;
+        moveBy(ltr, +dx, +dy);
+      } else {
+        fadeOut(ltr);
+      }
+    }
+    if(this.target === undefined) return
+    for (const ltr of this.target.letters) {
+      fadeOut(ltr);
     }
   }
 }
-

@@ -75,7 +75,7 @@ table, tr, td {
     position: relative;
 }
 
-.change {
+/* .change {
     background-color: yellow !important;
     color: yellow !important;
 }
@@ -86,4 +86,4 @@ table, tr, td {
 .remove {
     background-color: red !important;
     color: red !important;
-}
+} */

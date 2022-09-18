@@ -15,12 +15,16 @@
   * [x] label each spant based on "new", "same position", "new position"
   * [x] create effects for each span type
 * [ ] section = keyframe and contains only changes, objects are labeled by name
-* [ ] transition between equations
+* [x] transition between equations
 * [ ] transition between graphs
 * [ ] api for easy adding user defined stuff
+* [ ] more then one step transitions
 * [x] jak stylovat shadow dom? - dá se tam link případně , leze všechno hodit do slotu a stylovat to zvenč
 
 ## reports
+
+**17.9.2022**
+Zkusil bych na diff tree pužít funkci array diff vypadá, že by to mohla zvládnou lépe než moje verze. A nebo tam zatím nech tu mojí uvidíš co z toho bude :D
 
 **30.8.2022**
 Dostáváme se k problému, jak stylovat věci v shadowDOM, MathTex by měl být červeny, přidal jsem mu tam třída, ketrá by to měla zařídit, ale nefuguje to.

@@ -1,6 +1,7 @@
-import { Diff } from "diff";
-
-type DiffType = { el: Element; type: string }[];
+type DiffType = {
+  sources: Map<Element, Element | undefined>;
+  targets: Map<Element, Element | undefined>;
+};
 
 export class MyTreeDiffer {
   rootNode1: Element;
@@ -9,6 +10,7 @@ export class MyTreeDiffer {
   endNodes1: Element[];
   endNodes2: Element[];
 
+  // diff: ArrayChange<Element>[];
   diff: DiffType;
 
   constructor(rootNode1: Element, rootNode2: Element) {
@@ -18,49 +20,43 @@ export class MyTreeDiffer {
     this.endNodes1 = this.getEndNodes(this.rootNode1);
     this.endNodes2 = this.getEndNodes(this.rootNode2);
 
+    // this.diff = diffArrays(this.endNodes1, this.endNodes2);
+    // this.diff = diffArrays([8, 1, 2, 4, 7], [1, 2, 3, 4, 5, 6, 7, 8], {
+    //   comparator: (left: number, right: number) => {
+    //     return left == right;
+    //   },
+    // });
     this.diff = this.makeDiff();
   }
 
   makeDiff() {
-    const diff: DiffType = [];
+    const diff: DiffType = { sources: new Map(), targets: new Map() };
     let eq: boolean = false;
-    let node1Stat: Map<Element, string> = new Map();
-    let node2Stat: Map<Element, string> = new Map();
 
-    this.endNodes1.forEach((val) => {
-      node1Stat.set(val, "remove");
-    });
+    for (const el of this.endNodes1) {
+      diff.sources.set(el, undefined);
+    }
 
-    this.endNodes2.forEach((val) => {
-      node2Stat.set(val, "insert");
-    });
+    for (const el of this.endNodes2) {
+      diff.targets.set(el, undefined);
+    }
 
     for (const node1 of this.endNodes1) {
       eq = false;
       for (const node2 of this.endNodes2) {
-        if (this.isEqual(node1, node2)) {
+        if (
+          this.isEqual(node1, node2) &&
+          diff.sources.get(node1) === undefined &&
+          diff.targets.get(node2) === undefined
+        ) {
           eq = true;
-          node1Stat.set(node1, "");
-          node2Stat.set(node2, "");
-          continue;
+          diff.sources.set(node1, node2);
+          diff.targets.set(node2, node1);
+          break;
         }
       }
       if (eq) continue;
     }
-
-    this.endNodes1.forEach((val) => {
-      if (node1Stat.get(val) !== "") {
-        diff.push({el: val, type: "remove"});
-        val.classList.add("remove");
-      }
-    });
-
-    this.endNodes2.forEach((val) => {
-      if (node2Stat.get(val) !== "") {
-        diff.push({el: val, type: "insert"});
-        val.classList.add("insert");
-      }
-    });
 
     return diff;
   }

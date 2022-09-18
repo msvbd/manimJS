@@ -1,16 +1,23 @@
 // import katex from "katex";
-import { fadeIn, fadeOut, moveIn, moveOut, showIn, showOut } from "./animations";
+import {
+  fadeIn,
+  fadeOut,
+  moveIn,
+  moveOut,
+  showIn,
+  showInEnd,
+  showOut,
+} from "./animations";
 import { DrawGraph } from "./DrawGraph";
 import { For } from "./For";
 import { Text, TransText } from "./textTransform";
-import { MathTex } from "./MathTex";
+import { MathTex, TransMath } from "./MathTex";
 
 let slides = document.querySelectorAll(
   "#frames > section"
 ) as NodeListOf<HTMLElement>;
 let slideNumber = 0;
 let numOfSlides = slides.length;
-
 
 /* init transform text */
 const textsTrans = document.querySelectorAll(
@@ -20,7 +27,6 @@ const textsTrans = document.querySelectorAll(
 for (const text of textsTrans) {
   new Text(text);
 }
-
 
 update();
 
@@ -47,7 +53,7 @@ function update() {
     }
     if (i === slideNumber) {
       slide.style.opacity = "1";
-      for (const element of slide.children) {        
+      for (const element of slide.children) {
         AnimInElement(element as HTMLElement);
       }
       slide.classList.add("visible");
@@ -60,9 +66,18 @@ function AnimOutElement(el: HTMLElement) {
     el.animOut();
     return;
   }
+  if (el instanceof MathTex) {
+    console.log("is MathTex out");
+    const me = TransMath.transMath.get(el.dataId || '');
+    if(me !== undefined)
+      me.animOut()
+    // el.animOut();
+    showOut(el);
+    return;
+  }
   if (el.hasAttribute("data-text-transition")) {
-    TransText.transTexts.get(el.dataset.id).animOut()
-    showOut(el)
+    TransText.transTexts.get(el.dataset.id).animOut();
+    showOut(el);
     // fadeOut(el)
     return;
   }
@@ -84,9 +99,20 @@ function AnimInElement(el: HTMLElement) {
     el.animIn();
     return;
   }
+  if (el instanceof MathTex) {
+    console.log("is MathTex in");
+    const me = TransMath.transMath.get(el.dataId || '');
+    if(me === undefined) console.warn("anim in is undefined", TransMath.transMath);
+    
+    if(me !== undefined) 
+      me.animIn()
+    // el.animIn();
+    showIn(el);
+    return;
+  }
   if (el.hasAttribute("data-text-transition")) {
-    TransText.transTexts.get(el.dataset.id).animIn()
-    showIn(el)
+    TransText.transTexts.get(el.dataset.id).animIn();
+    showIn(el);
     // fadeIn(el)
     return;
   }
