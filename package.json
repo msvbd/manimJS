@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chart.js": "^3.9.1",
     "diff": "^5.1.0",
     "katex": "^0.16.0"
   },

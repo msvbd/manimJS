@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="stylesheet" href="./node_modules/katex/dist/katex.min.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="./js/app.js" type="module"></script>
+  </head>
+  <body>
+    <div id="manim">
+      <div id="frames">
+        <section></section>
+
+        <section>
+          <h1 data-anim-in="fade">
+            Hi <span style="opacity: 0;">I'm ManimJS</span>
+          </h1>
+        </section>
+
+        <section>
+          <h1 data-text-transition data-id="manimjs">
+            Hi I'm ManimJS
+          </h1>
+        </section>
+
+        <section>
+          <h1 style="top: -20%" data-text-transition data-id="manimjs">
+            Hi I'm ManimJS
+          </h1>
+        </section>
+
+        <section>
+          <h1 style="top: -20%" data-text-transition data-id="manimjs2">
+            Hi I'm ManimJS
+          </h1>
+        </section>
+
+        <section>
+          <h1 data-text-transition data-id="manimjs2">I'm awesome</h1>
+        </section>
+
+        <section>
+          <h2 data-anim-in="move">Charts</h2>
+          <p style="filter: opacity(0)">h</p>
+        </section>
+
+        <section>
+          <h2 data-anim-out="move">Charts</h2>
+          <p data-anim-in="move" data-anim-out="move">via chart.js</p>
+        </section>
+
+        <section>
+          <draw-graph-chartjs
+            data-x="1 2 3 4 5"
+            data-y="1 4 9 12 10"
+            data-color="#f00"
+            data-type="bar"
+            data-label="Useless data"
+          ></draw-graph-chartjs>
+        </section>
+
+        <section>
+          <draw-graph-chartjs
+            data-x="1 2 3 4 5"
+            data-y="1 4 9 12 10"
+            data-color="#f00"
+            data-type="line"
+            data-label="Useless data"
+          ></draw-graph-chartjs>
+        </section>
+
+        <section>
+          <h2 data-anim-in="rotate">Math</h2>
+        </section>
+
+        <section>
+          <h2 data-anim-out="rotate">Math</h2>
+          <p>via KaTEX</p>
+        </section>
+
+        <section>
+          <math-tex data-math-transition data-id="pyth"
+            >a^2 + b^2 = c^2</math-tex
+          >
+        </section>
+        <section>
+          <math-tex data-math-transition data-id="pyth"
+            >a^2 + b^2 - c^2 = 0</math-tex
+          >
+        </section>
+
+        <section>
+          <math-tex data-math-transition data-id="pyth2"
+            >a^2 + b^2 - c^2 = 0</math-tex
+          >
+        </section>
+        <section>
+          <math-tex data-math-transition data-id="pyth2"
+            >a^2 + b^2 = c^2</math-tex
+          >
+        </section>
+
+        <section>
+          <math-tex data-math-transition data-id="pyth3"
+            >a^2 + b^2 = {\color{red} c^2}</math-tex
+          >
+        </section>
+        <section>
+          <math-tex data-math-transition data-id="pyth3">
+            
+          {\color{red} \sqrt{\color{black} a^2 + b^2}} = {\color{red} c}</math-tex
+          >
+        </section>
+
+        <section>
+          <h2>Loop</h2>
+        </section>
+
+        <section>
+          <ul>
+            <for-loop data-from="0" data-to="4">
+              <li><math-tex>x^{${i}}</math-tex></li>
+            </for-loop>
+          </ul>
+        </section>
+
+        <section>
+          <div>
+            <for-loop data-from="0" data-to="3" data-i="i">
+              <for-loop data-from="0" data-to="3" data-i="j">
+                <span><math-tex>a_{${i}${j}}</math-tex></span>
+              </for-loop>
+              <br />
+            </for-loop>
+          </div>
+        </section>
+
+        <section>
+          <h1>ManimJS <br><span style="opacity: 0">is awesome</span></h1>
+        </section>
+
+        <section>
+          <h1>ManimJS <br> is awesome</h1>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

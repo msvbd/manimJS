@@ -48,27 +48,22 @@ export function showInEnd(el: HTMLElement) {
 export function moveOut(el: HTMLElement) {
   anim(1, 0, (val: number) => {
     el.style.opacity = "1";
-    el.style.transform = "translate(" + (-400 + val * 400) + "px, 0px)";
+    
+    el.style.transform = "translate(" + (-100 + val * 100) + "vw, 0px)";
   });
 }
 export function moveBy(el: HTMLElement, dx : number, dy : number) {
-  // let curLeft = el.style.left;
-  // let curTop = el.style.top;
-  // console.log(curLeft);
-  // console.log(curTop);
   anim(0, 1, (val: number) => {
     el.style.opacity = "1";
-    // el.style.transform = `translate(${val*dx}px, 100px)`;
     el.style.position = `relative`;
     el.style.left = `${val*dx}px`;
     el.style.top = `${val*dy}px`;
-    // el.style.transform = "translate(" + (400 - val * 400) + "px, 0px)";
   });
 }
 export function moveIn(el: HTMLElement) {
   anim(0, 1, (val: number) => {
     el.style.opacity = 1 + "";
-    el.style.transform = "translate(" + (400 - val * 400) + "px, 0px)";
+    el.style.transform = "translate(" + (100 - val * 100) + "vw, 0px)";
   });
 }
 export function turnRedOut(el: HTMLElement) {
@@ -89,8 +84,8 @@ export function rotateOut(el: HTMLElement) {
     el.style.transformOrigin = "center";
     el.style.transform =
       "translate(" +
-      (-400 + val * 400) +
-      "px, 0px) rotate(" +
+      (-100 + val * 100) +
+      "vw, 0px) rotate(" +
       val * 360 +
       "deg)";
   });
@@ -101,8 +96,8 @@ export function rotateIn(el: HTMLElement) {
     el.style.transformOrigin = "center";
     el.style.transform =
       "translate(" +
-      (400 - val * 400) +
-      "px, 0px) rotate(" +
+      (100 - val * 100) +
+      "vw, 0px) rotate(" +
       -val * 360 +
       "deg)";
   });

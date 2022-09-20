@@ -39,7 +39,7 @@ export class MathTex extends HTMLElement {
       return;
     }
 
-    console.log("animIn not undefined");
+    console.warn("animIn not undefined");
     this.transition.animIn();
   }
 
@@ -49,7 +49,7 @@ export class MathTex extends HTMLElement {
       return;
     }
 
-    console.log("animOut not undefined");
+    console.warn("animOut not undefined");
     this.transition.animOut();
   }
 }
@@ -62,7 +62,7 @@ export class TransMath {
 
   constructor(math: MathTex) {
     this.source = math;
-    console.log("math", math);
+    // console.log("math", math);
 
     if(math.dataId === undefined) return;
     
@@ -112,7 +112,6 @@ export class TransMath {
         ltr[1].getBoundingClientRect().top - ltr[0].getBoundingClientRect().top
       );
       ltr[0].classList.add("notNew");
-
     }
 
     for (const ltr of this.diff.diff.targets) {

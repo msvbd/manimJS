@@ -11,11 +11,11 @@ module.exports = {
   devtool: "inline-source-map",
   module: {
     rules: [
-      { test: /\.(ts)x?$/, use: 'ts-loader', exclude: /node_modules/ },
+      { test: /(\.d)?\.(ts)x?$/, use: 'ts-loader', exclude: /node_modules/ },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
     ],
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js"],
+    extensions: [".ts", ".tsx", ".js", ".d.ts"],
   },
 };
