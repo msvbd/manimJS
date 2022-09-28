@@ -3,6 +3,12 @@ type DiffType = {
   targets: Map<Element, Element | undefined>;
 };
 
+type Distance = {
+  source: Element;
+  target: Element;
+  dist: number;
+};
+
 export class MyTreeDiffer {
   rootNode1: Element;
   rootNode2: Element;
@@ -32,6 +38,7 @@ export class MyTreeDiffer {
   makeDiff() {
     const diff: DiffType = { sources: new Map(), targets: new Map() };
     let eq: boolean = false;
+    const dists: Map<Element, Distance[]> = new Map();
 
     for (const el of this.endNodes1) {
       diff.sources.set(el, undefined);
@@ -42,23 +49,65 @@ export class MyTreeDiffer {
     }
 
     for (const node1 of this.endNodes1) {
-      eq = false;
+      if (this.isEmpty(node1)) continue;
       for (const node2 of this.endNodes2) {
-        if (
-          this.isEqual(node1, node2) &&
-          diff.sources.get(node1) === undefined &&
-          diff.targets.get(node2) === undefined
-        ) {
-          eq = true;
-          diff.sources.set(node1, node2);
-          diff.targets.set(node2, node1);
-          break;
+        if (this.isEqual(node1, node2)) {
+          if (!dists.has(node1)) dists.set(node1, []);
+          dists.get(node1)?.push({
+            source: node1,
+            target: node2,
+            dist: this.getDistance(node1, node2),
+          });
         }
       }
-      if (eq) continue;
     }
 
+    for (const dist of dists) {
+      const minDist = dist[1].sort((a: Distance, b: Distance) => {
+        return a.dist - b.dist;
+      });
+      for (const ds of minDist) {
+        if(diff.sources.get(ds.source) !== undefined) continue
+        if(diff.targets.get(ds.target) !== undefined) continue
+
+        diff.sources.set(ds.source, ds.target);
+        diff.targets.set(ds.target, ds.source);
+      }
+    }
+
+    //console.log(diff.sources);
+    // asdf;
+
+    // for (const node1 of this.endNodes1) {
+    //   const minDist = dists
+    //     .filter((v: Distance) => {
+    //       return this.isEqual(v.source, node1);
+    //     })
+    //     .sort((a: Distance, b: Distance) => {
+    //       return a.dist - b.dist;
+    //     })[0];
+
+    //   if (minDist === undefined) continue;
+
+    //   diff.sources.set(minDist.source, minDist.target);
+    //   diff.targets.set(minDist.target, minDist.source);
+    //   // diff.sources.set(node1, node2);
+    //   // diff.targets.set(node2, node1);
+    // }
+
+    // console.log(dists);
+    // asdf;
+
     return diff;
+  }
+
+  getDistance(node1: Element, node2: Element): number {
+    const dx =
+      node1.getBoundingClientRect().left - node2.getBoundingClientRect().left;
+    const dy =
+      node1.getBoundingClientRect().top - node2.getBoundingClientRect().top;
+
+    return Math.sqrt(dx ** 2 + dy ** 2);
   }
 
   getEndNodes(node: Element): Element[] {
@@ -70,6 +119,10 @@ export class MyTreeDiffer {
       endNodes.push(...this.getEndNodes(child));
     }
     return endNodes;
+  }
+
+  isEmpty(node: Element) {
+    return !/\S/.test(node.innerHTML);
   }
 
   isEqual(node1: Element, node2: Element): boolean {
