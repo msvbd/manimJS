@@ -1,9 +1,10 @@
 export class For extends HTMLElement {
   from = 0;
   to = 0;
+  step = 1;
   toRepeat = "";
   iterator = "i";
-  mySlot : HTMLSlotElement;
+  mySlot: HTMLSlotElement;
 
   constructor() {
     super();
@@ -13,22 +14,36 @@ export class For extends HTMLElement {
     if (this.hasAttribute("data-from")) this.from = +this.dataset.from!;
     if (this.hasAttribute("data-to")) this.to = +this.dataset.to!;
     if (this.hasAttribute("data-i")) this.iterator = this.dataset.i!;
-    this.toRepeat = this.innerHTML
-    this.innerHTML = "" 
+    if (this.hasAttribute("data-step"))
+      this.step = this.dataset.step === undefined ? 1 : +this.dataset.step;
+
+    if (this.step === 0) this.step = 1;
+    if (this.from > this.to && this.step > 0) this.step *= -1;
+
+    this.toRepeat = this.innerHTML;
+    this.innerHTML = "";
     this.mySlot = document.createElement("slot");
-    this.shadowRoot?.appendChild(this.mySlot)
+    this.shadowRoot?.appendChild(this.mySlot);
   }
 
   connectedCallback() {
+    let MAXITER = 100;
+    let ITER = 0;
     let content = "";
-    // console.log(this.toRepeat);
-    
-    for (let i = this.from; i <= this.to; i++) {
-      content += this.toRepeat
-        .replace(new RegExp("\\${"+this.iterator+"}", "g"), i + "")
-        // .replace(/\$\{/+this.iterator+/\}/g, i + "")
+    let sgn = Math.sign(this.step)
+
+    for (
+      let i = this.from;
+      i * sgn  <= this.to * sgn;
+      i += this.step
+    ) {
+      content += this.toRepeat.replace(
+        new RegExp("\\${" + this.iterator + "}", "g"),
+        i + ""
+      );
+      ITER++;
+      if (ITER > MAXITER) break;
     }
-    // console.log(content);
     this.mySlot.innerHTML = content;
   }
 }
