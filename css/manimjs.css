@@ -1,8 +1,20 @@
+@font-face {
+    font-family: 'montserrat';
+    src: url('./googleFonts/Montserrat/Montserrat-VariableFont_wght.ttf') format('truetype');
+    /* https://fonts.google.com/specimen/Montserrat/about */
+}
+@font-face {
+    font-family: 'playfair-display';
+    src: url('./googleFonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
+    /* https://fonts.google.com/specimen/Playfair+Display/about */
+}
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     position: relative;
+    font-family: 'playfair-display', sans-serif;
+    /* font-family: 'montserrat', sans-serif; */
 }
 
 body, html {
@@ -74,16 +86,3 @@ table, tr, td {
 [data-text-transition] {
     position: relative;
 }
-
-/* .change {
-    background-color: yellow !important;
-    color: yellow !important;
-}
-.insert {
-    background-color: green !important;
-    color: green !important;
-}
-.remove {
-    background-color: red !important;
-    color: red !important;
-} */

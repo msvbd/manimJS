@@ -4,65 +4,81 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>ManimJS</title>
 
-    <link rel="stylesheet" href="./node_modules/katex/dist/katex.min.css" />
-    <link rel="stylesheet" href="./css/style.css" />
-    <script src="./js/app.js" type="module"></script>
+    <link rel="stylesheet" href="./css/katex.min.css" />
+    <link rel="stylesheet" href="./css/manimjs.css" />
+    <script src="./js/manimjs.bundle.js" type="module"></script>
   </head>
   <body>
     <div id="manim">
       <div id="frames">
+        <!-- Empty frame at the beginning. -->
+        <section>
+          <h1 data-text-transition data-id="test" style="top: -20%;">EAABBBCE</h1>
+        </section>
+        <section>
+          <h1 data-text-transition data-id="test">DABABAE</h1>
+        </section>
+
+        <!-- Empty frame at the beginning. -->
         <section></section>
 
+        <!-- Initial Frame -->
+        <!-- The span element is transparent but reserves a space for the next frame. -->
+        <!-- Default animation is "fade in" and "fade out". -->
         <section>
-          <h1 data-anim-in="fade">
-            Hi <span style="opacity: 0;">I'm ManimJS</span>
+          <h1>Hi<span style="opacity: 0">... I'm ManimJS</span></h1>
+        </section>
+        <section>
+          <h1>Hi... I'm ManimJS</h1>
+        </section>
+
+        <!-- A couple of frames are entangled by data-text-transition and data-id attributes. -->
+        <!-- The h1 element is moving about -20% in the vertical direction. -->
+        <section>
+          <h1 data-text-transition data-id="manimjs">Hi... I'm ManimJS</h1>
+        </section>
+        <section>
+          <h1 data-text-transition data-id="manimjs" style="top: -20%">
+            I'm ManimJS
           </h1>
         </section>
 
+        <!-- Another couple of frames are entangled by data-text-transition and data-id attributes. -->
+        <!-- The h1 text in the first section is transfiguring into the h1 text in the next section. -->
         <section>
-          <h1 data-text-transition data-id="manimjs">
-            Hi I'm ManimJS
+          <h1 data-text-transition data-id="manimjs2" style="top: -20%">
+            I'm ManimJS
           </h1>
         </section>
-
-        <section>
-          <h1 style="top: -20%" data-text-transition data-id="manimjs">
-            Hi I'm ManimJS
-          </h1>
-        </section>
-
-        <section>
-          <h1 style="top: -20%" data-text-transition data-id="manimjs2">
-            Hi I'm ManimJS
-          </h1>
-        </section>
-
         <section>
           <h1 data-text-transition data-id="manimjs2">I'm awesome</h1>
         </section>
 
+        <!-- An example of using "data-anim-in" and "data-anim-out" attributes with the value of "move". -->
+        <!-- The span element in the p element in the first section is transparent but reserves a space for the next frame. -->
         <section>
           <h2 data-anim-in="move">Charts</h2>
-          <p style="filter: opacity(0)">h</p>
+          <p><span style="opacity: 0">_</span></p>
         </section>
-
         <section>
           <h2 data-anim-out="move">Charts</h2>
           <p data-anim-in="move" data-anim-out="move">via chart.js</p>
         </section>
 
+        <!-- Chart Example -->
         <section>
           <draw-graph-chartjs
             data-x="1 2 3 4 5"
             data-y="1 4 9 12 10"
             data-color="#f00"
-            data-type="bar"
+            data-type="bar" 
             data-label="Useless data"
           ></draw-graph-chartjs>
         </section>
 
+        <!-- Chart Example -->
         <section>
           <draw-graph-chartjs
             data-x="1 2 3 4 5"
@@ -73,61 +89,57 @@
           ></draw-graph-chartjs>
         </section>
 
+        <!-- An example of using "data-anim-in" and "data-anim-out" attributes with the value of "rotate". -->
+        <!-- The span element in the p element in the first section is transparent but reserves a space for the next frame. -->
         <section>
           <h2 data-anim-in="rotate">Math</h2>
+          <p><span style="opacity: 0">_</span></p>
         </section>
-
         <section>
           <h2 data-anim-out="rotate">Math</h2>
           <p>via KaTEX</p>
         </section>
 
+        <!-- An example of a transition between a pair of equations via "data-math-transition" and "data-id" attributes. -->
         <section>
-          <math-tex data-math-transition data-id="pyth"
-            >a^2 + b^2 = c^2</math-tex
-          >
-        </section>
-        <section>
-          <math-tex data-math-transition data-id="pyth"
-            >a^2 + b^2 - c^2 = 0</math-tex
-          >
-        </section>
-
-        <section>
-          <math-tex data-math-transition data-id="pyth2"
+          <math-tex data-math-transition data-id="pyeq"
             >a^2 + b^2 - c^2 = 0</math-tex
           >
         </section>
         <section>
-          <math-tex data-math-transition data-id="pyth2"
+          <math-tex data-math-transition data-id="pyeq"
             >a^2 + b^2 = c^2</math-tex
           >
         </section>
 
+        <!-- An example of a transition between a pair of equations via "data-math-transition" and "data-id" attributes. -->
         <section>
-          <math-tex data-math-transition data-id="pyth3"
+          <math-tex data-math-transition data-id="pyeq3"
             >a^2 + b^2 = {\color{red} c^2}</math-tex
           >
         </section>
         <section>
-          <math-tex data-math-transition data-id="pyth3">
-            
-          {\color{red} \sqrt{\color{black} a^2 + b^2}} = {\color{red} c}</math-tex
+          <math-tex data-math-transition data-id="pyeq3">
+            {\color{red} \sqrt{\color{black} a^2 + b^2}} = {\color{red}
+            c}</math-tex
           >
         </section>
 
+        <!-- For Loop Component -->
         <section>
           <h2>Loop</h2>
         </section>
 
+        <!-- For Loop Example -->
         <section>
           <ul>
-            <for-loop data-from="0" data-to="4">
+            <for-loop data-from="8" data-to="4">
               <li><math-tex>x^{${i}}</math-tex></li>
             </for-loop>
           </ul>
         </section>
 
+        <!-- For Loop Example -->
         <section>
           <div>
             <for-loop data-from="0" data-to="3" data-i="i">
@@ -139,13 +151,20 @@
           </div>
         </section>
 
+        <!-- The span element in the first section is transparent but reserves a space for the next frame. -->
         <section>
-          <h1>ManimJS <br><span style="opacity: 0">is awesome</span></h1>
+          <h1>
+            ManimJS <br />
+            <span style="opacity: 0">is awesome</span>
+          </h1>
+        </section>
+        <section>
+          <h1>
+            ManimJS <br />
+            is awesome
+          </h1>
         </section>
 
-        <section>
-          <h1>ManimJS <br> is awesome</h1>
-        </section>
       </div>
     </div>
   </body>
