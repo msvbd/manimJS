@@ -1,5 +1,5 @@
 import { fadeIn, fadeOut, moveBy, showInEnd } from "./animations";
-import { MyTreeDiffer } from "./myTreeDiffer";
+import { MyTreeDiffer } from "./MyTreeDiffer";
 
 /* text transition */
 export class Text {
@@ -60,6 +60,8 @@ export class TransText {
       );
       ltr[0].classList.add("notNew");
     }
+
+
 
     for (const ltr of this.diff.diff.targets) {
       if (ltr[1] === undefined) {

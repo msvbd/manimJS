@@ -1,7 +1,7 @@
 import katex from "katex";
 import { fadeIn, fadeOut, showInEnd, moveBy } from "./animations";
 // import { diffArrays, diffChars } from "diff";
-import { MyTreeDiffer } from "./myTreeDiffer";
+import { MyTreeDiffer } from "./MyTreeDiffer";
 
 export class MathTex extends HTMLElement {
   mySlot: HTMLSlotElement;
@@ -20,7 +20,7 @@ export class MathTex extends HTMLElement {
 
     (
       this.shadowRoot as ShadowRoot
-    ).innerHTML = `<link rel="stylesheet" href="./node_modules/katex/dist/katex.min.css" />`;
+    ).innerHTML = `<link rel="stylesheet" href="./css/katex.min.css" />`;
     this.shadowRoot?.appendChild(this.mySlot);
   }
 
