@@ -16,6 +16,9 @@ import { Text, TransText } from "./textTransform";
 import { MathTex, TransMath } from "./MathTex";
 import { DrawGraphChartJS } from "./DrawGraph_chartJS";
 
+// <link rel="stylesheet" href="./node_modules/katex/dist/katex.min.css" />
+//     <link rel="stylesheet" href="./css/style.css" />
+
 let slides = document.querySelectorAll(
   "#frames > section"
 ) as NodeListOf<HTMLElement>;
