@@ -47,7 +47,7 @@ export function showInEnd(el: HTMLElement) {
 }
 export function moveOut(el: HTMLElement) {
   anim(1, 0, (val: number) => {
-    el.style.opacity = "1";
+    el.style.opacity = Math.ceil(val) + "";
     
     el.style.transform = "translate(" + (-100 + val * 100) + "vw, 0px)";
   });
