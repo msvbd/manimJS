@@ -3,18 +3,18 @@
 This is the first code version and contains many problems.
 You have been warned.
 
-It is written in TypeScript and wrapped by Webpack
+The functional part of the code is written in TypeScript and wrapped by Webpack.
 
 ## how to use
 
-Everything what you need is css and js folders in this repository. And you can use demo.html as a template.
+Everything you need is the `./css` and `./js` folders in this repository. And you can use demo.html as a template.
 
-You can use css/manimjs.css for styling your presentation but beware. Rewriting existing style can broke presentation style.
-Or you can style your elements directly via `style` atribute.
+You can use the `css/manimjs.css` for styling your presentation but beware. Rewriting the existing style can break the presentation style.
+Or you can style your elements directly via the `style` attribute.
 
 ### demo.html file structure
 
-`Body` element contains `<div id="manim"></div>` which wrappes, in this moment only `<div id="frames"></div>` which contains frames of your presentation.
+The `Body` element contains `<div id="manim"></div>` which wrappes, `<div id="frames"></div>` which contains frames of your presentation.
 
 Frame = `section` element.
 
@@ -23,18 +23,22 @@ Frame = `section` element.
 <body>
 <div id="manim">
     <div id="frames">
-    <!-- empty frame at the beggining -->
-    <section></section>
+       <!-- Empty frame at the beginning. -->
+        <section></section>
 
-    <!-- initial frame -->
-    <!-- span tag is transparent but reserve space for next frame -->
-    <!-- default animation is fade in and fade out -->
-    <section>
-        <h1>Hi <span style="opacity: 0">I'm ManimJS</span></h1>
-    </section>
-    <section>
-        <h1>Hi I'm ManimJS</h1>
-    </section>
+        <!-- Initial Frame -->
+        <!-- The span element is transparent but reserves a space for the next frame. -->
+        <!-- Default animation is "fade in" and "fade out". -->
+        <section>
+          <h1 style="grid-row: 1">
+            <span style="opacity: 0">Hi... </span>
+          </h1>
+          <h1 style="grid-row: 1">I'm ManimJS</h1>
+        </section>
+        <section>
+          <h1 style="grid-row: 1">Hi...</h1>
+          <h1 style="grid-row: 1">I'm ManimJS</h1>
+        </section>
 
     ...
 
@@ -50,15 +54,15 @@ Frame = `section` element.
 
 `<ELEMENT data-anim-in=VALUE></ELEMENT>`
 
-The atribute specifies appearing animation method.
+The attribute specifies the appearing animation method.
 
 Possible `VALUE`s:
 
 * `"fade"` - *(default)*
-* `"move"` - element move from right side into slide
-* `"rotate"` - element move from right side into side and rotate (I know it sounds stupid...)
+* `"move"` - element moves from the right side into the slide
+* `"rotate"` - element moves from the right side into the slide and rotate
 
-example:
+Example:
 
 ```html
 <section>
@@ -71,15 +75,15 @@ example:
 
 `<ELEMENT data-anim-out=VALUE></ELEMENT>`
 
-The atribute specifies disappearing animation method.
+The attribute specifies the disappearing animation method.
 
 Possible `VALUE`s:
 
 * `"fade"` - *(default)*
-* `"move"` - element move from slide to left side
-* `"rotate"` - element move from slide to left side and rotate (I know it sounds stupid...)
+* `"move"` - element moves from the slide to the left side
+* `"rotate"` - element moves from the slide to the left side and rotate
 
-example:
+Example:
 
 ```html
 <section>
@@ -92,16 +96,16 @@ example:
 
 `<ELEMENT data-text-transition data-id=ID></ELEMENT>`
 
-`ID` pairs two elements in consequence frame and have to be unique.
-You can use it for chanig position of element via `style`.
-Atribute also tranfigue one text to another. Existing letter in both text move into new position and the other letters appears or disappers by fade effect.
+The `ID` pairs two elements in consecutive frames and has to be unique.
+You can use it to change the element's position via `style`.
+The attribute also transfigures one text to another. Existing letters in both texts move into new positions, and the other letters appear or disappear with the fade effect.
 
-example:
+Example:
 
 ```html
 <section>
     <h1 data-text-transition data-id="manimjs2" style="top: -20%">
-    Hi I'm ManimJS
+    I'm ManimJS
     </h1>
 </section>
 <section>
@@ -113,11 +117,11 @@ example:
 
 `<ELEMENT data-math-transition data-id=ID></ELEMENT>`
 
-`ID` pairs two elements in consequence frame and have to be unique.
-You can use it for chanig position of element via `style`.
-Atribute also tranfigue one equation to another. Existing symbols in both equation move into new position and the other symbols appears or disappers by fade effect.
+The `ID` pairs two elements in consecutive frames and has to be unique.
+You can use it to change the element's position via `style`.
+The attribute also transfigures one equation to another. Existing symbols in both equation move into new positions, and the other symbols appears or disappears by the fade effect.
 
-example:
+Example:
 
 ```html
 <section>
@@ -134,11 +138,11 @@ example:
 
 ### implemented elements
 
-There are three implemented web components: `draw-graph-chartjs`, `math-tex` and `for-loop`
+There are three implemented web components: `draw-graph-chartjs`, `math-tex` and `for-loop`.
 
 #### draw-graph-chartjs
 
-This component render charts based on dataset.
+This component renders charts based on a dataset.
 Component uses [chart.js](https://github.com/chartjs/Chart.js) - [https://www.chartjs.org/](https://www.chartjs.org/).
 
 ```html
@@ -151,15 +155,15 @@ Component uses [chart.js](https://github.com/chartjs/Chart.js) - [https://www.ch
 </draw-graph-chartjs>
 ```
 
-atributes:
+Attributes:
 
-* `data-x` - dataset of x values, separate by space, should have the same length as `daty-y`
-* `data-y` - dataset of y values, separate by space, should have the same length as `daty-x`
+* `data-x` - dataset of x values, separated by spaces, should have the same length as `data-y`
+* `data-y` - dataset of y values, separated by spaces, should have the same length as `data-x`
 * `data-color` *(optional)* - color of data: "red", "#f00", "#ff0000", "rgb(255,0,0)"
 * `data-type` *(optional)*  - drawing method: "scatter", "line", "bar"
 * `data-label` *(optional)* - dataset label
 
-example:
+Example:
 
 ```html
 <draw-graph-chartjs
@@ -173,7 +177,7 @@ example:
 
 #### math-tex
 
-This component render equation from tex math notation.
+This component renders equations written in tex math notation.
 Component uses [KaTeX](https://github.com/KaTeX/KaTeX) - [https://katex.org/](https://katex.org/).
 
 ```html
@@ -184,12 +188,12 @@ Component uses [KaTeX](https://github.com/KaTeX/KaTeX) - [https://katex.org/](ht
 </math-tex>
 ```
 
-atributes:
+Attributes:
 
-* `data-math-transition` *(optional)* - labeling equationa as a part of transition effect, see [data-math-transition](#data-math-transition)
+* `data-math-transition` *(optional)* - set equation a as a part of transition effect, see [data-math-transition](#data-math-transition)
 * `data-id` *(optional)* - uniquily identifie transition between two equations, see [data-math-transition](#data-math-transition)
 
-example:
+Example:
 
 ```html
 <math-tex
@@ -209,20 +213,20 @@ example:
 </for-loop>
 ```
 
-*Note: There is safe limit for number of iteration set to 100.*
+*Note: There is a safe limit for the number of iterations set to 100.*
 
-atributes:
+Attributes:
 
-`data-from` - starting number of iterator - *default value* = "0"
-`data-to` - ending number of iterator - *default value* = "0"
+`data-from` - starting value of iterator - *default value* = "0"
+`data-to` - ending value of iterator - *default value* = "0"
 `data-step` - step of iterator - *default value if to > from* = "1" - *default value if from > to* = "-1"
-`data-i` - iterator variable - *default value* = "i"
+`data-i` - name of iterator variable - *default value* = "i"
 
-example:
+Example:
 
 ```html
 <ul>
-    <for-loop data-from="0" data-to="4">
+    <for-loop data-from="8" data-to="4">
         <li><math-tex>x^{${i}}</math-tex></li>
     </for-loop>
 </ul>
