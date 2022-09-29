@@ -30,14 +30,10 @@ Frame = `section` element.
         <!-- The span element is transparent but reserves a space for the next frame. -->
         <!-- Default animation is "fade in" and "fade out". -->
         <section>
-          <h1 style="grid-row: 1">
-            <span style="opacity: 0">Hi... </span>
-          </h1>
-          <h1 style="grid-row: 1">I'm ManimJS</h1>
+          ...
         </section>
         <section>
-          <h1 style="grid-row: 1">Hi...</h1>
-          <h1 style="grid-row: 1">I'm ManimJS</h1>
+          ...
         </section>
 
     ...
