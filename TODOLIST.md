@@ -1,10 +1,10 @@
 # todo list
 
 * [ ] clean code
-* [ ] folder structure
+* [ ] folders structure
 * [ ] unified components interface
-* [ ] backward reverse animation
-* [ ] multistep transition
+* [ ] reverse animation while backward
+* [ ] multiple steps transition
 * [ ] better chart engine
 * [ ] more animation methods
 * [ ] more easing functions
