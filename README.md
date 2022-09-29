@@ -7,10 +7,17 @@ The functional part of the code is written in TypeScript and wrapped by Webpack.
 
 ## how to use
 
-Everything you need is the `./css` and `./js` folders in this repository. And you can use demo.html as a template.
+Everything you need is the `./css` and `./js` folders in this repository. And you can use `./demo.html` as a template.
 
 You can use the `css/manimjs.css` for styling your presentation but beware. Rewriting the existing style can break the presentation style.
 Or you can style your elements directly via the `style` attribute.
+
+### control
+
+* next slide: `Right Arrow`
+* previous slide: `Left Arrow`
+* fullscreen: `F11`
+* autoplay: `A`
 
 ### demo.html file structure
 
