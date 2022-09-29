@@ -22,11 +22,11 @@ import { DrawGraphChartJS } from "./DrawGraph_chartJS";
 let slides = document.querySelectorAll(
   "#frames > section"
 ) as NodeListOf<HTMLElement>;
-let slideNumber:number = +window.location.hash.slice(1) || 0;
-let numOfSlides:number = slides.length;
+let slideNumber: number = +window.location.hash.slice(1) || 0;
+let numOfSlides: number = slides.length;
 
-if(!window.location.hash) {
-  window.location.hash = slideNumber+"";
+if (!window.location.hash) {
+  window.location.hash = slideNumber + "";
 }
 
 /* init transform text */
@@ -48,24 +48,52 @@ customElements.define("draw-graph-chartjs", DrawGraphChartJS);
 
 /* interaction */
 document.addEventListener("keydown", (e: KeyboardEvent) => {
-  if(e.key === "ArrowRight") {
+  if (e.key === "ArrowRight") {
     slideNumber++;
-  } else
-  if(e.key === "ArrowLeft") {
+  } else if (e.key === "ArrowLeft") {
     slideNumber--;
-  } else {return}
-  
-  if (slideNumber < 0) slideNumber = numOfSlides;
-  if (slideNumber >= numOfSlides) slideNumber = 0;
-  window.location.hash = slideNumber+"";
-  update();
+  } else if (e.key === "a") {
+    autoPlay();
+  } else {
+    return;
+  }
+
+  changeFrame();
 });
+
+function changeFrame() {
+  if (slideNumber < 0) slideNumber = numOfSlides;
+  if (slideNumber >= numOfSlides) slideNumber = numOfSlides;
+  window.location.hash = slideNumber + "";
+  update();
+}
 // document.addEventListener("click", (e: Event) => {
 //   slideNumber++;
 //   if (slideNumber >= numOfSlides) slideNumber = 0;
 //   window.location.hash = slideNumber+"";
 //   update();
 // });
+
+let autoPlayerID: NodeJS.Timeout | undefined;
+function autoPlay() {
+  
+  if (autoPlayerID === undefined) {
+    console.log("autoPlay on");
+    nextSlide();
+  } else {
+    console.log("autoPlay off");
+    clearTimeout(autoPlayerID);
+    autoPlayerID = undefined;
+  }
+
+  function nextSlide() {
+    slideNumber++;
+    changeFrame();
+    autoPlayerID = setTimeout(() => {
+      nextSlide();
+    }, 2000);
+  }
+}
 
 /* functions */
 function update() {
@@ -96,9 +124,8 @@ function AnimOutElement(el: HTMLElement) {
     return;
   }
   if (el instanceof MathTex) {
-    const me = TransMath.transMath.get(el.dataId || '');
-    if(me !== undefined)
-      me.animOut()
+    const me = TransMath.transMath.get(el.dataId || "");
+    if (me !== undefined) me.animOut();
     // el.animOut();
     showOut(el);
     return;
@@ -135,11 +162,11 @@ function AnimInElement(el: HTMLElement) {
     return;
   }
   if (el instanceof MathTex) {
-    const me = TransMath.transMath.get(el.dataId || '');
-    if(me === undefined) console.warn("anim in is undefined", TransMath.transMath);
-    
-    if(me !== undefined) 
-      me.animIn()
+    const me = TransMath.transMath.get(el.dataId || "");
+    if (me === undefined)
+      console.warn("anim in is undefined", TransMath.transMath);
+
+    if (me !== undefined) me.animIn();
     // el.animIn();
     showIn(el);
     return;
