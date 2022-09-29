@@ -39,7 +39,7 @@ body, html {
 
 #frames {
     position: relative;
-    width: min(1024px, 95vw);
+    width: 95vw;
     aspect-ratio: 16 / 9;
     overflow:visible;
     border: 1px solid black;
