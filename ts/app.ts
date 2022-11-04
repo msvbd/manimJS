@@ -62,7 +62,7 @@ document.addEventListener("keydown", (e: KeyboardEvent) => {
 });
 
 function changeFrame() {
-  if (slideNumber < 0) slideNumber = numOfSlides;
+  if (slideNumber < 0) slideNumber = 0;
   if (slideNumber >= numOfSlides) slideNumber = numOfSlides;
   window.location.hash = slideNumber + "";
   update();
